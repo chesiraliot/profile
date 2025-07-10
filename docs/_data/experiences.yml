@@ -44,15 +44,15 @@ exp5:
   descs: desc1
   desc1: Conducted Spanish language training for executives and managers seeking to improve professional communication skills with customized learning materials.
 
-exp6: 
-  title: Banking Assistant
-  year: May 2012 - September 2012
-  company: Caisse d'Epargne, Ecureuil Credit 
-  place: Montpellier, France
-  descs: desc1,desc2,desc3
-  desc1: Created, maintained, and organized credit and appraisal files.
-  desc2: Managed records reporting systems and coordinated the flow of legal loan documentation. 
-  desc3: Provided customer support and problem resolution through effective communication with internal and external clients.
+# exp6: 
+#   title: Banking Assistant
+#   year: May 2012 - September 2012
+#   company: Caisse d'Epargne, Ecureuil Credit 
+#   place: Montpellier, France
+#   descs: desc1,desc2,desc3
+#   desc1: Created, maintained, and organized credit and appraisal files.
+#   desc2: Managed records reporting systems and coordinated the flow of legal loan documentation. 
+#   desc3: Provided customer support and problem resolution through effective communication with internal and external clients.
 
 exp7: 
   title: Customer Service Advisor

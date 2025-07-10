@@ -19,7 +19,7 @@ display_header_contact_info:    "false"
 # # the next two items are used for schema itemprops in _layouts/resume.html
 # resume_contact_telephone:       "408-823-6316"
 # resume_contact_address:         "1277 Copper Peak Ln, 95120 San Jose, CA"
-# resume_header_contact_info:     "1277 Copper Peak Ln, 95120 San Jose, CA • 408-823-6316 • Chesira.lioy@gmail.com"
+# resume_header_contact_info:     "1277 Copper Peak Ln, 95120 San Jose, CA • 408-823-6316 • chesira.liot@gmail.com"
 
 # resume_header_intro: "<p>Director R&D with a proven track record of leading complex projects and driving technical excellence. Seeking a challenging role at a company to leverage strong individual contributor skills and expertise in software architecture, design, and development to contribute to the company's success.</p>"
 
@@ -42,13 +42,13 @@ resume_section_language:        true
 # Resume social links
 # uncomment the options you wish to display, and add your own URL
 resume_social_links:
-  resume_github_url:            "https://github.com/chesiraliot"
+  # resume_github_url:            "https://github.com/chesiraliot"
   # resume_twitter_url:           ""
   # resume_dribbble_url:          ""
   # resume_facebook_url:          ""
   resume_linkedin_url:          "https://www.linkedin.com/in/liotChesira/"
   # resume_instagram_url:         ""
-  resume_website_url:           "https://chesiraliot.github.io/profil"
+  # resume_website_url:           "https://chesiraliot.github.io/profile"
   # resume_medium_url:            ""
 resume_print_social_links:      true
 
