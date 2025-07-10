@@ -1,12 +1,9 @@
 langs: 
-  list: lang1,lang2,lang3
+  list: lang1,lang2
 
 lang1:
     lang: Spanish
     level: (Native)
 lang2:
     lang: French
-    level: (Fluent)
-lang3:
-    lang: English
     level: (Fluent)
