@@ -1,0 +1,50 @@
+name: Build LaTeX document
+on: [push]
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: chesira.liot.tex
+
+      - name: Generate Git Tag
+        id: generate_tag
+        run: |
+          VERSION_INCR=$(git rev-list --count HEAD | head -n 1)
+          VERSION_TIME=$(date +'%Y%m%d' | head -n 1)
+          VERSION_SHA=$(git rev-parse HEAD | cut -c 1-8  | head -n 1)
+          VERSION_TAG="v${VERSION_INCR}.${VERSION_TIME}.${VERSION_SHA}"
+          echo "Generated new tag: $VERSION_TAG"
+          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_OUTPUT  
+  
+      - name: Push Git Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag ${{ steps.generate_tag.outputs.VERSION_TAG }} || true
+          git push origin ${{ steps.generate_tag.outputs.VERSION_TAG }} || true
+          git fetch || true
+            
+      - name: Upload PDF file to artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: chesira.liot.pdf
+
+      - name: Upload PDF file to tag
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.TOKEN }}
+          file: chesira.liot.pdf
+          asset_name: chesira.liot.pdf
+          tag: ${{ steps.generate_tag.outputs.VERSION_TAG }}  
+          overwrite: true
+          body: "Resume ${{ steps.generate_tag.outputs.VERSION_TAG }}"

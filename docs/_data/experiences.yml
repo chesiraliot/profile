@@ -1,0 +1,82 @@
+exps: 
+  list: exp1,exp2,exp3,exp4,exp5,exp7,exp8,exp9
+
+exp1: 
+  title: Spanish Teacher - Middle School
+  year: August 2019 - Present
+  company: Stratford Middle School
+  place: San Jose, CA, USA 
+  descs: desc1,desc2
+  desc1: Develop and deliver engaging lesson plans for both remote and in-person classes, integrating communication, culture, and grammar aligned with ACTFL standards.
+  desc2: Foster student participation and language proficiency through new teaching methodologies.
+
+exp2: 
+  title: Noon Duty Coordinator
+  year: November 2016 - May 2020
+  company: Stevens Creek Elementary School
+  place: Cupertino, CA, USA 
+  descs: desc1,desc2
+  desc1: Provided volunteer support for planning the academic year event calendar.
+  desc2: Served as Noon Yard Duty Coordinator, liaising between the school and the district to ensure safe and efficient campus operations.
+
+exp3: 
+  title: Quality Rater
+  year: February 2017 - July 2017
+  company: ZeroChaos
+  place: Cupertino, CA, USA (Remote)
+  descs: desc1,desc2
+  desc1: Evaluated and improved the accuracy and relevance of advertisements, documents, and videos for Google.
+  desc2: Analyze search queries, review search result rankings, and provide feedback to improve search engine performance.
+
+exp4: 
+  title: Spanish Teacher - Higher Education
+  year: September 2013 - November 2014
+  company: Pigier Performance (Business School) 
+  place: Montpellier, France
+  descs: desc1
+  desc1: Taught Spanish to students pursuing technical degrees in Management of Commercial Units, Administrative Assistance, and Management Assistance.
+
+exp5: 
+  title: Spanish Trainer - Post-Graduate Education
+  year: July 2013 - December 2013
+  company: Adeos Formation
+  place: Montpellier, France
+  descs: desc1
+  desc1: Conducted Spanish language training for executives and managers seeking to improve professional communication skills with customized learning materials.
+
+exp6: 
+  title: Banking Assistant
+  year: May 2012 - September 2012
+  company: Caisse d'Epargne, Ecureuil Credit 
+  place: Montpellier, France
+  descs: desc1,desc2,desc3
+  desc1: Created, maintained, and organized credit and appraisal files.
+  desc2: Managed records reporting systems and coordinated the flow of legal loan documentation. 
+  desc3: Provided customer support and problem resolution through effective communication with internal and external clients.
+
+exp7: 
+  title: Customer Service Advisor
+  year: August 2005 - August 2007
+  company: Natixis
+  place: Caen, France
+  descs: desc1,desc2
+  desc1: Served as an international telephone advisor specializing in business savings plans and corporate and investment banking services for medium and large enterprises.
+  desc2: Ensured high-quality client support.
+
+exp8: 
+  title: Material Manager / Project Manager Assistant
+  year: April 1996 - July 2003
+  company: Lucent Technologies
+  place: Lima, Peru
+  descs: desc1,desc2
+  desc1: Managed on-time material deliveries for technology projects, collaborating closely with project managers, engineers, factories, warehouses, and logistics teams.
+  desc2: Supported project planning, forecasting, implementation, and control, ensuring smooth communication with internal and external customers.
+
+exp9: 
+  title: Bilingual Executive Assistant
+  year: January 1995 - February 1996
+  company: Merck KGaA
+  place: Lima, Peru
+  descs: desc1,desc2
+  desc1: Coordinated with the sales team on purchase orders, invoicing, and accounts receivable.
+  desc2: Organized conferences and corporate events.

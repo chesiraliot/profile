@@ -1,0 +1,27 @@
+certifications: 
+  list: certi1,certi2,certi3,certi4,certi5,certi6
+
+
+certi1:
+  title: Stanford World Languages
+  description: Professional Learning Workshops for Language Teachers
+
+certi2:
+  title: Stevens Institute of Technology
+  description: Certificate in Professional Project Management & Program Management
+
+certi3:
+  title: ESAN University
+  description: Certificate in Accounting and Finance for Non-Specialists
+
+certi4:
+  title: ESAN University
+  description: Certificate in Management and Organization
+
+certi5:
+  title: British Academy
+  description: Certificate in Commercial English
+
+certi6:
+  title: ELA Academy
+  description: Certificate in Executive Bilingual Secretary Studies

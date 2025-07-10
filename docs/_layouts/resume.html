@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+{% include head.html %}
+
+<body class="theme-{% if site.resume_theme %}{{ site.resume_theme }}{% endif %}">
+
+  <div class="wrapper" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="telephone" content="{{ site.data.perso.perso.phone  }}" />
+    <meta itemprop="address" content="{{ site.data.perso.perso.address  }}" />
+
+    <header class="page-header">
+
+      <!-- You can turn off the avatar in _config.yml by setting to false -->
+      {% if site.resume_avatar == 'true' %}
+      <img src="images/avatar.jpg" alt="my photo" class="avatar no-print" itemprop="image">
+      {% endif %}
+
+      <!-- Your name is defined in the _config.yml file -->
+      <h1 class="header-name" itemprop="name">{{ site.data.perso.perso.firstname }} {{ site.data.perso.perso.middlename }} {{ site.data.perso.perso.familyname }}</h1>
+
+      <!-- To display contact info here, change `display_header_contact_info` value in _config.yml to true -->
+      {% if site.display_header_contact_info == 'true' %}
+      <div class="header-contact-info">
+        <p>{{ site.data.perso.perso.address }} • {{ site.data.perso.perso.phone }} • {{ site.data.perso.perso.email }} </p>
+      </div>
+      {% endif %}
+
+      <div class="title-bar no-print">
+
+        <!-- Your title is also defined in the _config.yml file -->
+        <h2 class="header-title" itemprop="jobTitle">{{ site.data.perso.perso.title  }}</h2>
+
+        <!-- This is the markup for the icon links; moved out to an include because it's very verbose, and you shouldn't ever need to edit the markup (unless you want to re-order the icons); if you want to customize which links appear, define them in the _config.yml file -->
+        {% include icon-links.html %}
+      </div>
+
+      <!-- <div class="executive-summary" itemprop="description">
+        <br>{{ site.data.perso.perso.title }} {{ site.data.perso.perso.intro_l1 }} {{ site.data.perso.perso.intro_l2 }}
+      </div> -->
+
+      {% if site.resume_looking_for_work == 'yes' %}
+      <a href="mailto:{{ site.data.perso.perso.email  }}" class="contact-button no-print" itemprop="email">Contact me</a>
+      {% elsif site.resume_looking_for_work == 'no' %}
+      <a class="contact-button not-looking no-print">I'm not looking for work right now.</a>
+      {% else %}
+      {% endif %}
+
+    </header>
+
+    {% if site.resume_section_summary %}
+    <!-- begin Skills -->
+    <section class="content-section">
+
+      <header class="section-header">
+        <h2>Summary</h2>
+      </header>
+
+      {% for summary in site.data.summary %}
+      <div class="resume-item">
+        {% if summary[0] != 'sums' %}
+        <li class="resume-item-details">{{ summary[1].entry }}</li>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+    </section>
+    <!-- end Skills -->
+    {% endif %}
+
+    {% if site.resume_section_accomplishments %}
+    <!-- begin Accomplishments -->
+    <section class="content-section">
+
+      <header class="section-header">
+        <h2>Accomplishments</h2>
+      </header>
+
+      {% for accomp in site.data.accomplishments %}
+      <div class="resume-item">
+        {% if accomp[0] != 'accomps' %}
+        {% if accomp[1].link %}
+        <span class="resume-item-details"> {{accomp[1].entry}} </span> &bull; <a target="_blank"
+          href="https://{{ accomp[1].link }}">HERE</a><span style="float: right" class="resume-item-details">{{
+          accomp[1].date }}</span>
+        {% else %}
+        <span class="resume-item-details"> {{accomp[1].entry}} </span> <span style="float: right"
+          class="resume-item-details">{{ accomp[1].date }}</span>
+        {% endif %}
+        {% endif %}
+      </div>
+      {% endfor %}
+
+    </section>
+    <!-- end Accomplishments -->
+    {% endif %}
+
+    {% if site.resume_section_experience %}
+    <!-- begin Experience -->
+    <section class="content-section">
+
+      <header class="section-header">
+        <h2>Experience</h2>
+      </header>
+
+      {% for job in site.data.experiences %}
+      {% if job[0] != 'exps' %}
+      <div class="resume-item" itemscope itemprop="worksFor" itemtype="http://schema.org/Organization">
+        <span class="resume-item-title">{{ job[1].title }}</span><span style="float: right"
+          class="resume-item-details">{{ job[1].year }}</span>
+        {% if job[1].lab %}
+        <div class="resume-item-details">{{ job[1].company }} &bull; {{ job[1].lab }} &bull; {{ job[1].place }}</div>
+        {% else %}
+        <div class="resume-item-details">{{ job[1].company }} &bull; {{ job[1].place }}</div>
+        {% endif %}
+
+        {% assign descs = job[1].descs | split: "," %}
+        {% for desc in descs %}
+        <span class="resume-item-copy">{{ job[1][desc] }}</span><br />
+        {% endfor %}
+
+        <span style="font-style:italic; font-size:x-small">{{ job[1].technologies }}</span><br />
+
+
+        {% if job[1].projects %}
+        {% assign projects = job[1].projects | split: "|" %}
+        {% for pr in projects %}
+        {% assign project_part = pr | split: "," %}
+        <span style="float: center"><a title="{{project_part[0]}}" target="_blank" href="https://{{project_part[1]}}"><img style="object-fit: cover; width: 128px; height: 128px;" src="https://{{project_part[2]}}"/></a><br></span>
+        {% endfor %}
+        {% endif %}
+
+      </div><!-- end of resume-item -->
+      {% endif %}
+      {% endfor %}
+
+    </section>
+    <!-- end Experience -->
+    {% endif %}
+
+    {% if site.resume_section_skills %}
+    <!-- begin Skills -->
+    <section class="content-section">
+
+      <header class="section-header">
+        <h2>Skills</h2>
+      </header>
+
+      <div class="resume-item" itemscope itemprop="worksFor" itemtype="http://schema.org/Organization">
+        <div class="resume-item-details">Managerials:</div>
+        <div class="resume-item-item">{{ site.data.skills.managerial.description }}</div>
+        <br />
+        <div class="resume-item-details">Technicals:</div>
+
+        <table>
+          {% for tech in site.data.skills.technicals %}
+          <tr>
+            <td>{{ tech[0] }}:</td>
+            <td>&emsp;{{ tech[1] }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+
+    </section>
+    <!-- end Skills -->
+    {% endif %}
+
+    {% if site.resume_section_patent %}
+    <!-- begin Patent -->
+    <section class="content-section">
+
+      <header class="section-header">
+        <h2>Patents</h2>
+      </header>
+
+      {% for patent in site.data.patents %}
+      {% if patent[0] != 'patents' %}
+      <div class="resume-item">
+        <span class="resume-item-details"><a target="_blank" href="https://{{ patent[1].url }}">{{ patent[1].pid
+            }}</a></span> &bull; {{ patent[1].description }} <span style="float: right" class="resume-item-details">{{
+          patent[1].date }}</span>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+    </section>
+    <!-- end Patent -->
+    {% endif %}
+
+    {% if site.resume_section_education %}
+    <!-- begin Education -->
+    <section class="content-section">
+      <header class="section-header">
+        <h2>Education</h2>
+      </header>
+
+      {% for education in site.data.educations %}
+      {% if education[0] != 'edus' %}
+      <div class="resume-item" itemscope itemprop="alumniOf" itemtype="http://schema.org/CollegeOrUniversity">
+        <h3 class="resume-item-title" itemprop="name">{{ education[1].uni }}</h3>
+        <h4 class="resume-item-details group" itemprop="description">{{ education[1].degree }} &bull; {{
+          education[1].year }} &bull; {{ education[1].city }}</h4>
+        <p class="resume-item-copy">{{ education[1].summary }}</p>
+
+        {% if education[1].projects %}
+        {% assign edu = education[1].projects | split: "|" %}
+        {% for e in edu %}
+          {% assign project_part = e | split: "," %}
+          <span style="float: center"><a title="{{project_part[0]}}" target="_blank" href="https://{{project_part[1]}}"><img style="object-fit: cover; width: 232px; height: 232px;" src="https://{{project_part[2]}}"/></a></span>
+        {% endfor %}
+        {% endif %}
+      </div>
+      {% endif %}
+      {% endfor %}
+    </section>
+    <!-- end Education -->
+    {% endif %}
+
+    {% if site.resume_section_language %}
+    <!-- begin languages -->
+    <section class="content-section">
+
+      <header class="section-header">
+        <h2>Languages</h2>
+      </header>
+
+      {% for language in site.data.languages %}
+      {% if language[0] != 'langs' %}
+      <div>
+        <p class="resume-item-copy">&bull; {{ language[1].lang }} {{ language[1].level }}</p>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+    </section>
+    <!-- end languages -->
+    {% endif %}
+
+    {% if site.resume_print_social_links %}
+    <!-- begin Print Social Links -->
+    <section class="content-section print-only">
+
+      <header class="section-header">
+        <h2>Social Links</h2>
+      </header>
+
+      <div class="resume-item">
+        {% include print-social-links.html %}
+      </div>
+
+    </section>
+    <!-- end Print Social Links -->
+    {% endif %}
+
+    <footer class="page-footer">
+      <p class="footer-line"></p>
+    </footer>
+
+  </div>
+
+</body>
+
+</html>

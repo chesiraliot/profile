@@ -1,0 +1,337 @@
+% Curriculum Vitae
+% Chesira Paola LIOT
+% 25 August 2023
+
+\documentclass[9pt,a4paper,sans]{moderncv}
+
+\usepackage{datetime}
+
+\usepackage{xparse}
+
+\usepackage{xstring}
+
+\usepackage{setspace}
+
+\usepackage{ifthen}
+
+\usepackage{footmisc}
+
+\usepackage{tikzpagenodes}
+
+\ExplSyntaxOn
+
+\NewDocumentCommand{\readYAML}{m}
+{	% #1 = file (no .yaml extension)
+	\sr_readyaml:n { #1 }
+}
+
+\NewExpandableDocumentCommand{\getfromYAML}{mmm}
+{	% #1 = file (no .yaml extension)
+	% #2 = section
+	% #3 = key
+	\prop_item:cn { g_sr_readyaml_#1_prop } { #2@#3 }
+}
+
+\tl_new:N \l__sr_readyaml_currsection_tl
+\seq_new:N \l__sr_readyaml_line_seq
+\ior_new:N \g_sr_readyaml_stream
+
+\cs_generate_variant:Nn \seq_set_split:Nnn { NV }
+\cs_generate_variant:Nn \prop_gput:Nnn { cxx }
+\prg_generate_conditional_variant:Nnn \tl_if_blank:n { f } { TF }
+
+\cs_new_protected:Nn \sr_readyaml:n
+{
+	\prop_if_exist:cF { g_sr_readyaml_#1_prop }
+	{
+		\__sr_readyaml_read:n { #1 }
+	}
+}
+
+\cs_new_protected:Nn \__sr_readyaml_read:n
+{
+	\prop_new:c { g_sr_readyaml_#1_prop }
+	\ior_open:Nn \g_sr_readyaml_stream { #1.yml }
+	\ior_str_map_inline:Nn \g_sr_readyaml_stream
+	{
+		\__sr_readyaml_line:nn { #1 } { ##1 }
+	}
+	\ior_close:N \g_sr_readyaml_stream
+}
+
+\cs_new_protected:Nn \__sr_readyaml_line:nn
+{% #1 is the file name, #2 the current line
+	\tl_if_blank:nF { #2 }
+	{
+		\seq_set_split:NVn \l__sr_readyaml_line_seq \c_colon_str { #2 }
+		\tl_if_blank:fTF { \seq_item:Nn \l__sr_readyaml_line_seq { 2 } }
+		{% nothing after the colon, set the current section
+			\tl_set:Nx \l__sr_readyaml_currsection_tl { \seq_item:Nn \l__sr_readyaml_line_seq { 1 } }
+		}
+			{% value after the colon, add to the property list
+			\prop_gput:cxx
+			% prop name
+			{ g_sr_readyaml_#1_prop }
+			% key
+			{ \l__sr_readyaml_currsection_tl @ \seq_item:Nn \l__sr_readyaml_line_seq { 1 } }
+			% value
+			{ \seq_item:Nn \l__sr_readyaml_line_seq { 2 } }
+		}
+	}
+}
+
+\NewDocumentCommand{\xforeach}{sO{}mm}
+{
+	\IfBooleanTF { #1 }
+	{
+		\marks_xforeach:Vnn #3 { #2 } { #4 }
+	}
+	{
+		\marks_xforeach:nnn { #3 } { #2 } { #4 }
+	}
+}
+
+\keys_define:nn { marks/xforeach }
+{
+	upto  .int_set:N   = \l_marks_xforeach_upto_int,
+	items .clist_set:N = \l_marks_xforeach_items_clist,
+}
+
+\clist_new:N \l__marks_xforeach_main_clist
+\seq_new:N \l__marks_xforeach_items_seq
+\seq_new:N \l__marks_xforeach_main_seq
+
+\cs_new_protected:Nn \marks_xforeach:nnn
+{
+	\clist_set:Nn \l__marks_xforeach_main_clist { #1 }
+	\keys_set:nn { marks/xforeach } { upto=-1, items=, #2 }
+	\cs_set_protected:Nn \__marks_xforeach_cycle:n { #3 }
+
+	\seq_clear:N \l__marks_xforeach_items_seq
+	\clist_if_empty:NTF \l_marks_xforeach_items_clist
+	{% items not specified
+		\int_compare:nT { \l_marks_xforeach_upto_int = -1 }
+		{
+			\int_set:Nn \l_marks_xforeach_upto_int
+			{ \clist_count:N \l__marks_xforeach_main_clist }
+		}
+		\int_step_inline:nn { \l_marks_xforeach_upto_int }
+		{
+			\seq_put_right:Nn \l__marks_xforeach_items_seq { ##1 }
+		}
+	}
+	{% items
+		\seq_set_from_clist:NN \l__marks_xforeach_items_seq \l_marks_xforeach_items_clist
+	}
+	\seq_clear:N \l__marks_xforeach_main_seq
+	\seq_map_inline:Nn \l__marks_xforeach_items_seq
+	{
+		\seq_put_right:Nx \l__marks_xforeach_main_seq
+		{
+			\clist_item:Nn \l__marks_xforeach_main_clist { ##1 }
+		}
+	}
+	\seq_map_function:NN \l__marks_xforeach_main_seq \__marks_xforeach_cycle:n
+}
+\cs_generate_variant:Nn \marks_xforeach:nnn { V }
+
+\ExplSyntaxOff
+
+\moderncvstyle{banking}
+
+\moderncvcolor{grey} 
+
+% adjust the page margins
+\usepackage[scale=0.9]{geometry}
+
+% character encoding
+\usepackage[utf8]{inputenc}
+
+% date of today
+\usepackage[useregional]{datetime2}
+
+\usepackage{anyfontsize}
+
+\usepackage{multicol}
+
+\usepackage{filecontents}
+
+\usepackage{forloop}
+
+\makeatletter
+\@initializelength{\baseletterheight}
+\settoheight{\baseletterheight}{\sectionstyle{o}}
+\setlength{\baseletterheight}{\baseletterheight-0.95ex}
+\RenewDocumentCommand{\section}{sm}{%
+  \par\addvspace{1.5ex}%
+  \phantomsection{}% reset the anchor for hyperrefs
+  \addcontentsline{toc}{section}{#2}%
+  \if@left\else\if@fullrules\else\if@mixedrules\else%
+    \sectionrule\fi\fi\fi%
+  \strut\sectionstyle{#2}%
+  \if@fullrules%
+    \sectionrule%
+  \else\if@mixedrules%
+    \sectionrule%
+  \else\if@right\else%
+    \sectionrule\fi\fi\fi%
+  \par\nobreak\addvspace{0.5ex}\@afterheading}
+\makeatother
+
+% personal data
+\name{}{}
+
+\usepackage{xpatch}
+\makeatletter
+\xpatchcmd{\makehead}{\titlestyle{~|~\@title}}{\par\vskip1ex\titlestyle{\@title}}{}{}
+\makeatother
+
+% define new color
+\usepackage{color}
+\definecolor{gray}{RGB}{128,128,128}
+\newcommand\Colorhref[3][gray]{\href{https://#2}{\scriptsize\color{#1}#3}}
+
+ %%%%%%For Horizontal rule in the footnote
+  \makeatletter
+ \def\footnoterule{\kern-3\p@
+   \hrule \@width 2in \kern 2.6\p@} % the \hrule is .4pt high
+ \makeatother
+
+\recomputelengths
+
+\begin{document}
+\begin{scriptsize}
+
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% PAGE 1
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+\readYAML{docs/_data/perso}
+\edef\jt{\getfromYAML{docs/_data/perso}{perso}{title}}
+\title{\jt}
+\address{\getfromYAML{docs/_data/perso}{perso}{address}}
+\firstname{\getfromYAML{docs/_data/perso}{perso}{firstname}}
+\familyname{\getfromYAML{docs/_data/perso}{perso}{familyname}} 
+\phone[mobile]{\getfromYAML{docs/_data/perso}{perso}{phone}}                  
+\email{\getfromYAML{docs/_data/perso}{perso}{email}}
+\social[linkedin]{\getfromYAML{docs/_data/perso}{perso}{linkedin}}
+% \social[github]{\getfromYAML{docs/_data/perso}{perso}{github}}
+\homepage{\getfromYAML{docs/_data/perso}{perso}{homepage}}
+\makecvtitle
+
+% \jt\:\getfromYAML{docs/_data/perso}{perso}{intro_l1} \\
+% \getfromYAML{docs/_data/perso}{perso}{intro_l2} 
+
+%----------------------------------------------------------------------------------------
+% SUMMARY SECTION
+%----------------------------------------------------------------------------------------
+
+\readYAML{docs/_data/summary}
+\section{Summary}
+\edef\summary{\getfromYAML{docs/_data/summary}{sums}{list}}
+\xforeach*{\summary}{
+	\getfromYAML{docs/_data/summary}{#1}{entry} \\
+}
+
+%----------------------------------------------------------------------------------------
+% EXPERIENCE SECTION
+%----------------------------------------------------------------------------------------
+
+\readYAML{docs/_data/experiences}
+
+\section{Experience}
+\edef\experiences{\getfromYAML{docs/_data/experiences}{exps}{list}}
+\xforeach*{\experiences}{
+	\edef\explink_#1{\getfromYAML{docs/_data/experiences}{#1}{link}}
+	\StrLen{\explink_#1}[\linklen_#1]
+	\edef\explab_#1{\getfromYAML{docs/_data/experiences}{#1}{lab}}
+	\StrLen{\explab_#1}[\lablen_#1]
+	\edef\descs_#1{\getfromYAML{docs/_data/experiences}{#1}{descs}}
+	\StrLen{\descs_#1}[\descslen_#1]
+	\edef\expnp_#1{\getfromYAML{docs/_data/experiences}{#1}{newpage}}
+	\StrLen{\expnp_#1}[\expnplen_#1]
+	\ifnum \expnplen_#1>0
+	\newpage
+	\fi
+	\cventry
+	{\getfromYAML{docs/_data/experiences}{#1}{year}}
+	{\getfromYAML{docs/_data/experiences}{#1}{company} \ifnum \lablen_#1>0\ifnum \linklen_#1>0 - \Colorhref{\explink_#1}{\explab_#1}\fi\fi}
+	{\getfromYAML{docs/_data/experiences}{#1}{title}}
+	{\getfromYAML{docs/_data/experiences}{#1}{place}}
+	{}
+	{\begin{scriptsize}
+		\ifnum \descslen_#1>0
+			\begin{itemize}
+			\edef\descs{\getfromYAML{docs/_data/experiences}{#1}{descs}}
+			\xforeach*{\descs}{
+				\item[-] \getfromYAML{docs/_data/experiences}{#1}{##1}
+			}
+			\end{itemize}
+		\fi
+	\end{scriptsize}
+	\edef\exptec_#1{\getfromYAML{docs/_data/experiences}{#1}{technologies}}
+	\StrLen{\exptec_#1}[\expteclen_#1]
+	\begin{tiny}
+	\ifnum \expteclen_#1>0 Technology: \exptec_#1\fi
+	\end{tiny}
+	}
+	{}
+}
+
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% PAGE 2
+%++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+%% \newpage
+% \hfill \break
+
+%----------------------------------------------------------------------------------------
+% EDUCATION SECTION
+%----------------------------------------------------------------------------------------
+
+\readYAML{docs/_data/educations}
+\section{Educations}
+\edef\educations{\getfromYAML{docs/_data/educations}{edus}{list}}
+\xforeach*{\educations}{
+\cventry
+	{\getfromYAML{docs/_data/educations}{#1}{year}}
+	{\getfromYAML{docs/_data/educations}{#1}{degree}}
+	{\getfromYAML{docs/_data/educations}{#1}{uni}}
+	{\getfromYAML{docs/_data/educations}{#1}{city}}
+	{\textit{}}
+	{\getfromYAML{docs/_data/educations}{#1}{summary}} 
+}
+
+
+%----------------------------------------------------------------------------------------
+% CERTIFICATIONS SECTION
+%----------------------------------------------------------------------------------------
+
+\readYAML{docs/_data/certifications}
+\section{Certifications}
+\edef\patents{\getfromYAML{docs/_data/certifications}{certifications}{list}}
+\begin{itemize}
+\xforeach*{\patents}{
+	\item[-] \textbf{\getfromYAML{docs/_data/certifications}{#1}{title}:} \getfromYAML{docs/_data/certifications}{#1}{description}\hfill
+}
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+% LANGUAGES SECTION
+%----------------------------------------------------------------------------------------
+
+\readYAML{docs/_data/languages}
+\section{Languages}
+\edef\languages{\getfromYAML{docs/_data/languages}{langs}{list}}
+\begin{itemize}
+\xforeach*{\languages}{
+	\item[-] \getfromYAML{docs/_data/languages}{#1}{lang} \getfromYAML{docs/_data/languages}{#1}{level}
+}
+\end{itemize}
+
+\clearpage
+
+\end{scriptsize}
+
+\end{document}
+
