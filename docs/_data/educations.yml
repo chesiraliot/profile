@@ -2,14 +2,14 @@ edus:
   list: edu2,edu1
 
 edu2:
- degree: Master's degree (M.S.)
+ degree: Master's degree
  uni: University of Paul Valery
  city: Montpellier (France)
  year: 2009
  summary: Foreign Languages Applied to Business & Management
 
 edu1:
- degree: Bachelor's degree (B.S.)
+ degree: Bachelor's degree
  uni: University of Caen
  city: Caen (France)
  year: 2007
